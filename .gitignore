@@ -1,7 +1,6 @@
 notebooks/Data
 stock/
-notebooks/sentiment_analysis.ipynb
-scripts/sentiment.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
