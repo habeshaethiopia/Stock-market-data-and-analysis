@@ -82,3 +82,57 @@ def plot_correlation_matrix(data):
     sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", linewidths=0.5)
     plt.title("Correlation Matrix Heatmap")
     plt.show()
+
+
+def plot_sentiment_distribution(data, column):
+    """
+    Plots the sentiment distribution as a bar chart.
+    
+    Parameters:
+    data (pd.DataFrame): The DataFrame containing the data.
+    column (str): The column name for sentiment labels.
+    """
+    sentiment_counts = data[column].value_counts()
+    plt.figure(figsize=(8, 5))
+    sentiment_counts.plot(kind='bar', color=['green', 'red', 'blue'])
+    plt.title('Sentiment Distribution')
+    plt.xlabel('Sentiment')
+    plt.ylabel('Count')
+    plt.show()
+
+
+def plot_average_sentiment_by_publisher(data, publisher_column, sentiment_column):
+    """
+    Plots the average sentiment score by publisher as a horizontal bar chart.
+    
+    Parameters:
+    data (pd.DataFrame): The DataFrame containing the data.
+    publisher_column (str): The column name for publishers.
+    sentiment_column (str): The column name for sentiment scores.
+    """
+    average_sentiment_by_publisher = data.groupby(publisher_column)[sentiment_column].mean()
+    average_sentiment_by_publisher.sort_values().plot(kind='barh', figsize=(10, 6), color='purple')
+    plt.title('Average Sentiment Score by Publisher')
+    plt.xlabel('Sentiment Score')
+    plt.ylabel('Publisher')
+    plt.show()
+
+
+def plot_sentiment_over_time(data, date_column, sentiment_column):
+    """
+    Plots the average sentiment score over time as a line chart.
+    
+    Parameters:
+    data (pd.DataFrame): The DataFrame containing the data.
+    date_column (str): The column name for dates.
+    sentiment_column (str): The column name for sentiment scores.
+    """
+    data[date_column] = pd.to_datetime(data[date_column])  # Ensure date is in datetime format
+    data.set_index(date_column, inplace=True)
+    sentiment_over_time = data.resample('M')[sentiment_column].mean()
+    plt.figure(figsize=(12, 6))
+    sentiment_over_time.plot(color='orange')
+    plt.title('Average Sentiment Score Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Sentiment Score')
+    plt.show()
