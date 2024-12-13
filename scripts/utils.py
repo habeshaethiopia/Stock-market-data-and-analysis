@@ -17,6 +17,7 @@ def read_csv_file(file_path):
         'row_count': row_count
     }
 
+
 def calculate_summary_statistics(data):
     """
     Calculate summary statistics for numerical columns in the DataFrame.
