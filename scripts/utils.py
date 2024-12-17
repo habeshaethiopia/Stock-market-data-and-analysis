@@ -2,17 +2,30 @@ import pandas as pd
 
 
 def read_csv_file(file_path):
-    # Read the CSV file
-    data = pd.read_csv(file_path)
+    try:
+        # Read the CSV file
+        data = pd.read_csv(file_path)
 
-    # Remove any 'Unnamed:' columns
-    data = data.loc[:, ~data.columns.str.contains("^Unnamed")]
+        # Remove any 'Unnamed:' columns
+        data = data.loc[:, ~data.columns.str.contains("^Unnamed")]
 
-    # Get additional info
-    column_names = data.columns.tolist()
-    row_count = data.shape[0]
+        # Get additional info
+        column_names = data.columns.tolist()
+        row_count = data.shape[0]
 
-    return {"data": data, "column_names": column_names, "row_count": row_count}
+        return {"data": data, "column_names": column_names, "row_count": row_count}
+    except FileNotFoundError:
+        print(f"Error: The file at {file_path} was not found.")
+        return None
+    except pd.errors.EmptyDataError:
+        print(f"Error: The file at {file_path} is empty.")
+        return None
+    except pd.errors.ParserError:
+        print(f"Error: The file at {file_path} could not be parsed.")
+        return None
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return None
 
 
 def calculate_summary_statistics(data):
